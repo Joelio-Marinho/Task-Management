@@ -13,6 +13,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -32,7 +34,7 @@ public class TarefaDTO {
     private String descricao;
 
     @NotEmpty
-    private String prazo;
+    private LocalDate prazo;
 
     @NotNull
     private Departamento departamento;

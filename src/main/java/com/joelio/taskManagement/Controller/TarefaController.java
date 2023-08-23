@@ -2,6 +2,7 @@ package com.joelio.taskManagement.Controller;
 
 import com.joelio.taskManagement.DTO.PessoaDTO;
 import com.joelio.taskManagement.DTO.TarefaDTO;
+import com.joelio.taskManagement.DTO.TarefaTrasnfDTO;
 import com.joelio.taskManagement.Services.TarefaService;
 import com.joelio.taskManagement.exception.BusinessException;
 import com.joelio.taskManagement.model.Pessoa;
@@ -11,6 +12,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.time.Instant;
 
 @RestController
 @RequestMapping("/tarefas")
@@ -24,9 +29,8 @@ public class TarefaController {
         this.modelMapper = modelMapper;
     }
     @PostMapping
-    public ResponseEntity<TarefaDTO> create(@RequestBody @Valid TarefaDTO dto)  {
-
-        Tarefa entity = modelMapper.map(dto, Tarefa.class);
+    public ResponseEntity<TarefaDTO> create(@RequestBody @Valid TarefaTrasnfDTO dto) throws ParseException {
+        Tarefa entity = modelMapper.map(tarefaService.tarefaTransform(dto), Tarefa.class);
         entity = tarefaService.create(entity);
         TarefaDTO tarefaDTO = modelMapper.map(entity,TarefaDTO.class);
         return new ResponseEntity<>(tarefaDTO, HttpStatus.CREATED);

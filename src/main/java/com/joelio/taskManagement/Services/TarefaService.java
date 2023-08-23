@@ -1,5 +1,7 @@
 package com.joelio.taskManagement.Services;
 
+import com.joelio.taskManagement.DTO.TarefaDTO;
+import com.joelio.taskManagement.DTO.TarefaTrasnfDTO;
 import com.joelio.taskManagement.Repository.TarefaRepository;
 import com.joelio.taskManagement.exception.BusinessException;
 import com.joelio.taskManagement.model.Enum.TarefaStaus;
@@ -10,6 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -23,6 +32,9 @@ public class TarefaService {
     public TarefaService(TarefaRepository repository, PessoaService pessoaService) {
         this.repository = repository;
         this.pessoaService = pessoaService;
+    }
+    public TarefaRepository getRepository (){
+        return  this.repository;
     }
 
     public Optional<Tarefa> getById(Integer id){
@@ -62,5 +74,13 @@ public class TarefaService {
         Tarefa tarefa = getById(id).get();
         tarefa.setFinalizado(TarefaStaus.FINISHED);
         return repository.save(tarefa);
+    }
+    public TarefaDTO tarefaTransform(TarefaTrasnfDTO dto) {
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate data = LocalDate.parse(dto.getPrazo(), formato);
+
+        TarefaDTO tarefaDTO = new TarefaDTO(dto.getId(),dto.getTitulo(),dto.getDescricao(),data,
+                dto.getDepartamento(),dto.getDuracao(),dto.getPessoa(),dto.getFinalizado());
+        return tarefaDTO;
     }
 }

@@ -1,45 +1,51 @@
-package com.joelio.taskManagement.model;
+package com.joelio.taskManagement.DTO;
 
 import com.joelio.taskManagement.exception.BusinessException;
+import com.joelio.taskManagement.model.Departamento;
 import com.joelio.taskManagement.model.Enum.TarefaStaus;
-import jakarta.persistence.*;
+import com.joelio.taskManagement.model.Pessoa;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-import java.time.LocalDate;
-
-
 @Data
-@Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table
-public class Tarefa implements Serializable {
+public class TarefaTrasnfDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column
+
+    @NotEmpty
+    @Size(min = 3, max = 20)
     private String titulo;
-    @Column
+
+    @NotEmpty
+    @Size(min = 3, max = 100)
     private String descricao;
-    @Column
-    private LocalDate prazo;
-    @ManyToOne
-    @JoinColumn(name = "IdDepartamento")
+
+    @NotEmpty
+    private String prazo;
+
+    @NotNull
     private Departamento departamento;
-    @Column
+
+    @NotNull
     private Integer duracao;
-    @ManyToOne
+
     private Pessoa pessoa;
-    @Column
+
     private TarefaStaus finalizado;
 
     public TarefaStaus getStatus() throws BusinessException {
         return TarefaStaus.toEnum(finalizado.getCod());
     }
+
 }
+
