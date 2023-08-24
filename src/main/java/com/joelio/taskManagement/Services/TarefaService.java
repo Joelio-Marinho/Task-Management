@@ -12,13 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Locale;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -82,5 +78,9 @@ public class TarefaService {
         TarefaDTO tarefaDTO = new TarefaDTO(dto.getId(),dto.getTitulo(),dto.getDescricao(),data,
                 dto.getDepartamento(),dto.getDuracao(),dto.getPessoa(),dto.getFinalizado());
         return tarefaDTO;
+    }
+
+    public List<Tarefa> findByPendente() {
+        return repository.findAllByPessoaEmptyAndOrderByPrazoAsc();
     }
 }

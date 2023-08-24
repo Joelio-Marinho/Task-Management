@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/tarefas")
@@ -61,4 +63,10 @@ public class TarefaController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+    @GetMapping(value = "/pendentes", produces = "Application/json")
+    public ResponseEntity<List<TarefaDTO>> findByPendenteMissingPessoa()  {
+        List<TarefaDTO> tarefaDTO = tarefaService.findByPendente().stream().map(tarefa -> modelMapper.map(tarefa,TarefaDTO.class)).collect(Collectors.toList());
+        return new ResponseEntity<>(tarefaDTO, HttpStatus.OK);
+    }
 }
