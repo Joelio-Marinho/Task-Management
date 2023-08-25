@@ -22,8 +22,8 @@ public class DepartementoImp implements DepartamentoCustomRepository {
 
             sqlNativo.append("SELECT  ");
             sqlNativo.append(" d.titulo , ");
-            sqlNativo.append("sum(p.id) as quantidade_pessoas, ");
-            sqlNativo.append("sum(t.id) as quantidade_tarefas ");
+            sqlNativo.append("count(p.id) as quantidade_pessoas, ");
+            sqlNativo.append("count(t.id) as quantidade_tarefas ");
             sqlNativo.append("from departamento d  ");
             sqlNativo.append("join tarefa t on t.id_departamento = d.id ");
             sqlNativo.append("join pessoa p on p.id = t.pessoa_id ");

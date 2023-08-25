@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/departamento")
+@RequestMapping("/departamentos")
 public class DepartamentoController {
 
     private DepartamentoService departamentoService;
