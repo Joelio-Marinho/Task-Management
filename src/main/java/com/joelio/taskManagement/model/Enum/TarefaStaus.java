@@ -5,8 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 public enum TarefaStaus {
-    FINISHED(1, "true"),
-    PENDING(2, "false");
+
+    PENDING(0, "false"),
+    FINISHED(1, "true"),;
 
     private Integer cod;
     private String description;

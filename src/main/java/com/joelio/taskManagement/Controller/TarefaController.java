@@ -5,7 +5,7 @@ import com.joelio.taskManagement.DTO.TarefaDTO;
 import com.joelio.taskManagement.DTO.TarefaTrasnfDTO;
 import com.joelio.taskManagement.Services.TarefaService;
 import com.joelio.taskManagement.exception.BusinessException;
-import com.joelio.taskManagement.helper.PessoaTarefaDepartamentoHelper;
+import com.joelio.taskManagement.helper.TarefaHelper;
 import com.joelio.taskManagement.model.Pessoa;
 import com.joelio.taskManagement.model.Tarefa;
 import jakarta.validation.Valid;
@@ -14,11 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
-import java.time.Instant;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("/tarefas")
@@ -64,16 +62,9 @@ public class TarefaController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
     @GetMapping(value = "/pendentes", produces = "Application/json")
-    public ResponseEntity<List<TarefaDTO>> findByPendenteMissingPessoa()  {
-        List<TarefaDTO> tarefaDTO = tarefaService.findByPendente().stream().map(tarefa -> modelMapper.map(tarefa,TarefaDTO.class)).collect(Collectors.toList());
-        return new ResponseEntity<>(tarefaDTO, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/retornaTresTarefasMaisAntigasSemAlocacao", produces = "Application/json")
-    public ResponseEntity<List<PessoaTarefaDepartamentoHelper>> retornaTresTarefasMaisAntigasSemAlocacao()  {
-        List<PessoaTarefaDepartamentoHelper> helpers = this.tarefaService.retornaTresTarefasMaisAntigasSemAlocacao();
+    public ResponseEntity<List<TarefaHelper>> retornaTresTarefasMaisAntigasSemAlocacao()  {
+        List<TarefaHelper> helpers = this.tarefaService.retornaTresTarefasMaisAntigasSemAlocacao();
         return new ResponseEntity<>(helpers, HttpStatus.OK);
     }
 }

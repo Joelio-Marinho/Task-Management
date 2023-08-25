@@ -3,9 +3,9 @@ package com.joelio.taskManagement.Services;
 import com.joelio.taskManagement.Repository.PessoaCustomRepository;
 import com.joelio.taskManagement.Repository.PessoaRepository;
 import com.joelio.taskManagement.exception.BusinessException;
-import com.joelio.taskManagement.helper.PessoaTarefaDepartamentoHelper;
+import com.joelio.taskManagement.helper.PessoaHelper;
+import com.joelio.taskManagement.helper.PessoaSimplHelper;
 import com.joelio.taskManagement.model.Pessoa;
-import com.joelio.taskManagement.model.Tarefa;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,11 +69,15 @@ public class PessoaService {
         return repository.save(pUpdate);
     }
 
-    public PessoaTarefaDepartamentoHelper retornaNomePessoaDepartamentoTotalHorasGastasPorTarefa(){
+    public List<PessoaHelper> retornaNomePessoaDepartamentoTotalHorasGastasPorTarefa(){
         return pessoaCustomRepository.retornaNomePessoaDepartamentoTotalHorasGastasPorTarefa();
     }
 
-    public List<PessoaTarefaDepartamentoHelper> retornaNomeEPeriodo(LocalDate prazoInicial, LocalDate prazoFinal){
-        return pessoaCustomRepository.retornaNomeEPeriodo(prazoInicial, prazoFinal);
+    public PessoaSimplHelper findByNomeAndPeriodo(String nomePessoa, LocalDate prazoInicial, LocalDate prazoFinal) throws BusinessException {
+
+        if (!repository.existsByNome(nomePessoa)){
+            throw new BusinessException("pessoa.not.exist", new ResponseStatusException(HttpStatus.NOT_FOUND));
+        }
+        return pessoaCustomRepository.retornaNomeEPeriodo(nomePessoa,prazoInicial, prazoFinal);
     }
 }

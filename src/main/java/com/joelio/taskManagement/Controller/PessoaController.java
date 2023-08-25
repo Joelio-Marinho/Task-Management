@@ -2,15 +2,14 @@ package com.joelio.taskManagement.Controller;
 
 
 import com.joelio.taskManagement.DTO.PessoaDTO;
-import com.joelio.taskManagement.DTO.TarefaDTO;
 import com.joelio.taskManagement.Services.PessoaService;
 import com.joelio.taskManagement.exception.BusinessException;
-import com.joelio.taskManagement.helper.PessoaTarefaDepartamentoHelper;
+import com.joelio.taskManagement.helper.PessoaHelper;
+import com.joelio.taskManagement.helper.PessoaSimplHelper;
 import com.joelio.taskManagement.model.Pessoa;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -55,16 +53,17 @@ public class PessoaController {
     }
 
 
-    @GetMapping(value = "/buscaPessoaDepartamentoHoras", produces = "Application/json")
-    public ResponseEntity<PessoaTarefaDepartamentoHelper> buscaHelper() { //ALTERAR NOME DEPOIS
-        PessoaTarefaDepartamentoHelper helper = pessoaService.retornaNomePessoaDepartamentoTotalHorasGastasPorTarefa();
+    @GetMapping
+    public ResponseEntity<List<PessoaHelper>> findAllPessoaAndDepartamentoAndTotalHoras() {
+        List<PessoaHelper> helper = pessoaService.retornaNomePessoaDepartamentoTotalHorasGastasPorTarefa();
         return new ResponseEntity<>(helper, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/buscaNomeEPeriodo", produces = "Application/json")
-    public ResponseEntity<List<PessoaTarefaDepartamentoHelper>> buscaHelperNomeEPeriodo(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate prazoInicial,
-                                                                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate prazoFinal) { //ALTERAR NOME DEPOIS
-        List<PessoaTarefaDepartamentoHelper> helpers = pessoaService.retornaNomeEPeriodo(prazoInicial, prazoFinal);
+    @GetMapping(value = "/gastos", produces = "Application/json")
+    public ResponseEntity<PessoaSimplHelper> buscaNomeEPeriodo(@RequestParam String nomePessoa,
+                                                                           @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate prazoInicial,
+                                                                      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate prazoFinal) throws BusinessException { //ALTERAR NOME DEPOIS
+        PessoaSimplHelper helpers = pessoaService.findByNomeAndPeriodo(nomePessoa ,prazoInicial, prazoFinal);
         return new ResponseEntity<>(helpers, HttpStatus.OK);
     }
 

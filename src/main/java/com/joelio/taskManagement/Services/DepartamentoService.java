@@ -3,9 +3,8 @@ package com.joelio.taskManagement.Services;
 import com.joelio.taskManagement.Repository.DepartamentoCustomRepository;
 import com.joelio.taskManagement.Repository.DepartamentoRepository;
 import com.joelio.taskManagement.exception.BusinessException;
-import com.joelio.taskManagement.helper.PessoaTarefaDepartamentoHelper;
+import com.joelio.taskManagement.helper.DepartamentoHelper;
 import com.joelio.taskManagement.model.Departamento;
-import com.joelio.taskManagement.model.Pessoa;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,7 +36,7 @@ public class DepartamentoService {
         return repository.save(departamento);
     }
 
-    public List<PessoaTarefaDepartamentoHelper> retornaDepartamentoQPessoasQTarefas(){
+    public List<DepartamentoHelper> getQPessoasQTarefasByDepartamento(){
         return departamentoCustomRepository.retornaDepartamentoQPessoasQTarefas();
     }
 }

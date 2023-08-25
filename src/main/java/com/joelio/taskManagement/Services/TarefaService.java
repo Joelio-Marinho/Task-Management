@@ -5,7 +5,7 @@ import com.joelio.taskManagement.DTO.TarefaTrasnfDTO;
 import com.joelio.taskManagement.Repository.TarefaCustomRepository;
 import com.joelio.taskManagement.Repository.TarefaRepository;
 import com.joelio.taskManagement.exception.BusinessException;
-import com.joelio.taskManagement.helper.PessoaTarefaDepartamentoHelper;
+import com.joelio.taskManagement.helper.TarefaHelper;
 import com.joelio.taskManagement.model.Enum.TarefaStaus;
 import com.joelio.taskManagement.model.Pessoa;
 import com.joelio.taskManagement.model.Tarefa;
@@ -85,11 +85,7 @@ public class TarefaService {
         return tarefaDTO;
     }
 
-    public List<Tarefa> findByPendente() {
-        return repository.findAllByPessoaEmptyAndOrderByPrazoAsc();
-    }
-
-    public List<PessoaTarefaDepartamentoHelper> retornaTresTarefasMaisAntigasSemAlocacao(){
+    public List<TarefaHelper> retornaTresTarefasMaisAntigasSemAlocacao(){
         return this.tarefaCustomRepository.retornaTresTarefasMaisAntigasSemAlocacao();
     }
 }

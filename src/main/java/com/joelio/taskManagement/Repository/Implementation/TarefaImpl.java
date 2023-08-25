@@ -1,7 +1,7 @@
 package com.joelio.taskManagement.Repository.Implementation;
 
 import com.joelio.taskManagement.Repository.TarefaCustomRepository;
-import com.joelio.taskManagement.helper.PessoaTarefaDepartamentoHelper;
+import com.joelio.taskManagement.helper.TarefaHelper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ public class TarefaImpl implements TarefaCustomRepository {
 
     EntityManager entityManager;
 
-    public List<PessoaTarefaDepartamentoHelper> retornaTresTarefasMaisAntigasSemAlocacao(){
+    public List<TarefaHelper> retornaTresTarefasMaisAntigasSemAlocacao(){
         try {
             StringBuilder sqlNativo = new StringBuilder();
 
@@ -27,15 +27,15 @@ public class TarefaImpl implements TarefaCustomRepository {
             sqlNativo.append("WHERE t.pessoa_id is null ");
             sqlNativo.append("ORDER BY t.prazo desc, t.id asc limit 3");
 
-            Query query = entityManager.createNativeQuery(sqlNativo.toString()); // cria chamada para consulta no banco;
+            Query query = entityManager.createNativeQuery(sqlNativo.toString());
 
             List<Object[]> objects = query.getResultList();
 
             if (!objects.isEmpty()) {
-                List<PessoaTarefaDepartamentoHelper> helpers = new ArrayList<>();
+                List<TarefaHelper> helpers = new ArrayList<>();
 
                 objects.forEach(obj -> {
-                    PessoaTarefaDepartamentoHelper helper = new PessoaTarefaDepartamentoHelper();
+                    TarefaHelper helper = new TarefaHelper();
                     helper.setIdTarefa(obj[0] != null ? Integer.parseInt(obj[0].toString()) : null);
                     helper.setDescricaoTarefa(obj[1] != null ? obj[1].toString() : null);
                     helper.setDuracaotarefa(obj[2] != null ? new BigDecimal(obj[2].toString()) : null);

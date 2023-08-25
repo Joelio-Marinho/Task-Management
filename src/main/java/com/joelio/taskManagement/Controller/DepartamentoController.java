@@ -3,7 +3,7 @@ package com.joelio.taskManagement.Controller;
 import com.joelio.taskManagement.DTO.DepartamentoDTO;
 import com.joelio.taskManagement.Services.DepartamentoService;
 import com.joelio.taskManagement.exception.BusinessException;
-import com.joelio.taskManagement.helper.PessoaTarefaDepartamentoHelper;
+import com.joelio.taskManagement.helper.DepartamentoHelper;
 import com.joelio.taskManagement.model.Departamento;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -33,9 +33,9 @@ public class DepartamentoController {
         return new ResponseEntity<>(departamentoDTO, HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/buscaDepartementoPessoa", produces = "Application/json")
-    public ResponseEntity<List<PessoaTarefaDepartamentoHelper>> buscaHelper() { //ALTERAR NOME DEPOIS
-        List<PessoaTarefaDepartamentoHelper> helper = departamentoService.retornaDepartamentoQPessoasQTarefas();
+    @GetMapping
+    public ResponseEntity<List<DepartamentoHelper>> getQPessoasQTarefasByDepartamento() {
+        List<DepartamentoHelper> helper = departamentoService.getQPessoasQTarefasByDepartamento();
         return new ResponseEntity<>(helper, HttpStatus.OK);
     }
 }
