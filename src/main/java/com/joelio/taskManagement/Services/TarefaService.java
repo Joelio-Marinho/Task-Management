@@ -2,8 +2,10 @@ package com.joelio.taskManagement.Services;
 
 import com.joelio.taskManagement.DTO.TarefaDTO;
 import com.joelio.taskManagement.DTO.TarefaTrasnfDTO;
+import com.joelio.taskManagement.Repository.TarefaCustomRepository;
 import com.joelio.taskManagement.Repository.TarefaRepository;
 import com.joelio.taskManagement.exception.BusinessException;
+import com.joelio.taskManagement.helper.PessoaTarefaDepartamentoHelper;
 import com.joelio.taskManagement.model.Enum.TarefaStaus;
 import com.joelio.taskManagement.model.Pessoa;
 import com.joelio.taskManagement.model.Tarefa;
@@ -24,10 +26,13 @@ public class TarefaService {
 
     private PessoaService pessoaService;
 
+    private TarefaCustomRepository tarefaCustomRepository;
+
     @Autowired
-    public TarefaService(TarefaRepository repository, PessoaService pessoaService) {
+    public TarefaService(TarefaRepository repository, PessoaService pessoaService, TarefaCustomRepository tarefaCustomRepository) {
         this.repository = repository;
         this.pessoaService = pessoaService;
+        this.tarefaCustomRepository = tarefaCustomRepository;
     }
     public TarefaRepository getRepository (){
         return  this.repository;
@@ -82,5 +87,9 @@ public class TarefaService {
 
     public List<Tarefa> findByPendente() {
         return repository.findAllByPessoaEmptyAndOrderByPrazoAsc();
+    }
+
+    public List<PessoaTarefaDepartamentoHelper> retornaTresTarefasMaisAntigasSemAlocacao(){
+        return this.tarefaCustomRepository.retornaTresTarefasMaisAntigasSemAlocacao();
     }
 }

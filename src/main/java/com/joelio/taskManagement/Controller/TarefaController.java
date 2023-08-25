@@ -5,6 +5,7 @@ import com.joelio.taskManagement.DTO.TarefaDTO;
 import com.joelio.taskManagement.DTO.TarefaTrasnfDTO;
 import com.joelio.taskManagement.Services.TarefaService;
 import com.joelio.taskManagement.exception.BusinessException;
+import com.joelio.taskManagement.helper.PessoaTarefaDepartamentoHelper;
 import com.joelio.taskManagement.model.Pessoa;
 import com.joelio.taskManagement.model.Tarefa;
 import jakarta.validation.Valid;
@@ -68,5 +69,11 @@ public class TarefaController {
     public ResponseEntity<List<TarefaDTO>> findByPendenteMissingPessoa()  {
         List<TarefaDTO> tarefaDTO = tarefaService.findByPendente().stream().map(tarefa -> modelMapper.map(tarefa,TarefaDTO.class)).collect(Collectors.toList());
         return new ResponseEntity<>(tarefaDTO, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/retornaTresTarefasMaisAntigasSemAlocacao", produces = "Application/json")
+    public ResponseEntity<List<PessoaTarefaDepartamentoHelper>> retornaTresTarefasMaisAntigasSemAlocacao()  {
+        List<PessoaTarefaDepartamentoHelper> helpers = this.tarefaService.retornaTresTarefasMaisAntigasSemAlocacao();
+        return new ResponseEntity<>(helpers, HttpStatus.OK);
     }
 }

@@ -1,7 +1,9 @@
 package com.joelio.taskManagement.Services;
 
+import com.joelio.taskManagement.Repository.PessoaCustomRepository;
 import com.joelio.taskManagement.Repository.PessoaRepository;
 import com.joelio.taskManagement.exception.BusinessException;
+import com.joelio.taskManagement.helper.PessoaTarefaDepartamentoHelper;
 import com.joelio.taskManagement.model.Pessoa;
 import com.joelio.taskManagement.model.Tarefa;
 import jakarta.transaction.Transactional;
@@ -10,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,13 +24,15 @@ public class PessoaService {
 
     private DepartamentoService departamentoService;
 
+    private PessoaCustomRepository pessoaCustomRepository;
 
     @Autowired
-    public PessoaService(PessoaRepository repository, DepartamentoService departamentoService) {
+    public PessoaService(PessoaRepository repository, DepartamentoService departamentoService, PessoaCustomRepository pessoaCustomRepository) {
         this.repository = repository;
         this.departamentoService = departamentoService;
-
+        this.pessoaCustomRepository = pessoaCustomRepository;
     }
+
     public Optional<Pessoa> getById(Integer id){
         return this.repository.findById(id);
     }
@@ -65,4 +70,11 @@ public class PessoaService {
         return repository.save(pUpdate);
     }
 
+    public PessoaTarefaDepartamentoHelper retornaNomePessoaDepartamentoTotalHorasGastasPorTarefa(){
+        return pessoaCustomRepository.retornaNomePessoaDepartamentoTotalHorasGastasPorTarefa();
+    }
+
+    public List<PessoaTarefaDepartamentoHelper> retornaNomeEPeriodo(LocalDate prazoInicial, LocalDate prazoFinal){
+        return pessoaCustomRepository.retornaNomeEPeriodo(prazoInicial, prazoFinal);
+    }
 }
