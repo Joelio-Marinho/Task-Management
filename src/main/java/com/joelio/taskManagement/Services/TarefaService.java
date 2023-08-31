@@ -41,10 +41,15 @@ public class TarefaService {
     public Optional<Tarefa> getById(Integer id){
         return this.repository.findById(id);
     }
-    public Tarefa create(Tarefa tarefa){
-        Tarefa T = tarefa;
-        tarefa.setFinalizado(TarefaStaus.PENDING);
-        return repository.save(T);
+    public Tarefa create(Tarefa tarefa) throws BusinessException {
+        Tarefa tarefaCreated = tarefa;
+        if(tarefaCreated.getPessoa() != null) {
+            if(!tarefaCreated.getPessoa().getDepartamento().equals(tarefaCreated.getDepartamento())){
+                throw new BusinessException("invalidate.different.department", new ResponseStatusException(HttpStatus.PRECONDITION_FAILED));
+            }
+        }
+        tarefaCreated.setFinalizado(TarefaStaus.PENDING);
+        return repository.save(tarefaCreated);
     }
 
     public void delete(Integer id) throws BusinessException{

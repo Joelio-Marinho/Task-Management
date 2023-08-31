@@ -30,7 +30,7 @@ public class TarefaController {
         this.modelMapper = modelMapper;
     }
     @PostMapping
-    public ResponseEntity<TarefaDTO> create(@RequestBody @Valid TarefaTrasnfDTO dto) throws ParseException {
+    public ResponseEntity<TarefaDTO> create(@RequestBody @Valid TarefaTrasnfDTO dto) throws BusinessException {
         Tarefa entity = modelMapper.map(tarefaService.tarefaTransform(dto), Tarefa.class);
         entity = tarefaService.create(entity);
         TarefaDTO tarefaDTO = modelMapper.map(entity,TarefaDTO.class);
