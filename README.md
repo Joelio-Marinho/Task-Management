@@ -1,5 +1,6 @@
 # Task-Management
-
+## Comando Docker
+docker build -f Dockerfile --build-arg JAR_FILE=Task-Management-0.0.1-SNAPSHOT.jar -t joelio/task_management .
 ## JSON para teste via Postman
 ### Departamento
 Criar Departamento
