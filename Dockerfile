@@ -1,4 +1,4 @@
-FROM openjdk:8-jre
-ENTRYPOINT ["/usr/bin/java", "-jar", "Task-Management.jar"]
+FROM eclipse-temurin:17-jdk-alpine
+ENTRYPOINT ["java", "-jar", "Task-Management.jar"]
 ARG JAR_FILE
-ADD target/${JAR_FILE} Task-Management.jar
+COPY ${JAR_FILE} Task-Management.jar

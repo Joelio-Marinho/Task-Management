@@ -1,6 +1,15 @@
 # Task-Management
 ## Comando Docker
+### Gerar Arquivo .jar
+./mvnw clean install
+### Criar conteiner 
+
+docker build --build-arg JAR_FILE=target/*.jar -t joelio/task_management .
+
 docker build -f Dockerfile --build-arg JAR_FILE=Task-Management-0.0.1-SNAPSHOT.jar -t joelio/task_management .
+### Rodar projeto
+docker run -p 8080:8080 myorg/myapp
+docker run --name task_management -d -p 8085:8080 joelio/task_management:latest
 ## JSON para teste via Postman
 ### Departamento
 Criar Departamento
